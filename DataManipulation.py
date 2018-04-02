@@ -75,9 +75,10 @@ class Grabber(object):
                 my_fetcher = Fetcher(ticker, self.start, self.end)
                 # self.df = self.get_data_from_yahoo(self.start, self.end, ticker)
                 self.df = my_fetcher.getHistorical()
+                self.df.set_index('Date', inplace=True)
                 self.df.dropna(inplace=True)
             self.df.to_csv(self.path)
-            print (self.df.tail())
+            self.df = pd.read_csv(self.path, parse_dates=True, index_col=0) # This is a workaround to the grabber issue
         else:
             self.update_data(self.start, self.end, ticker, self.path, source)
 
@@ -115,8 +116,9 @@ class Grabber(object):
 
         new_df.set_index('Date', inplace=True)
         df = pd.concat([df, new_df])
+        # df.set_index('Date', inplace=True)
         df.dropna(inplace=True)
-        # df.reset_index('Date', inplace=True)
+        df.reset_index('Date', inplace=True)
         df.drop_duplicates('Date', keep='last', inplace=True)
         df.set_index('Date', inplace=True)
         df.to_csv(path)
@@ -469,8 +471,10 @@ class StockVisualizer(object):
 
     def build_dates_df(self):
         df_date = self.data.copy()
-        df_date.drop(['High', 'Close', 'Low', 'Adj Close', 'Open', 'Volume'], 1, inplace=True)
         df_date.reset_index(inplace=True)
+
+        df_date.drop(['High', 'Close', 'Low', 'Adj Close', 'Open', 'Volume'], 1, inplace=True)
+
         df_date['Date'] = df_date['Date'].map(mdates.date2num)
         return df_date
 

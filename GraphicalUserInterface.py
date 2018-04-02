@@ -79,7 +79,7 @@ class GUI (tk.Tk):
         input_text = ttk.Entry(input_box)
         input_text.pack()
         input_text.delete(0)
-        input_text.insert(0, "TQQQ")
+        input_text.insert(0, "GOOG")
 
         def callback():
             ticker = input_text.get()
