@@ -77,6 +77,7 @@ class Grabber(object):
                 self.df = my_fetcher.getHistorical()
                 self.df.dropna(inplace=True)
             self.df.to_csv(self.path)
+            print (self.df.tail())
         else:
             self.update_data(self.start, self.end, ticker, self.path, source)
 
@@ -115,7 +116,7 @@ class Grabber(object):
         new_df.set_index('Date', inplace=True)
         df = pd.concat([df, new_df])
         df.dropna(inplace=True)
-        df.reset_index('Date', inplace=True)
+        # df.reset_index('Date', inplace=True)
         df.drop_duplicates('Date', keep='last', inplace=True)
         df.set_index('Date', inplace=True)
         df.to_csv(path)
