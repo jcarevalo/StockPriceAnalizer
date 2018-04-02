@@ -137,7 +137,7 @@ class Grabber(object):
         url = 'https://www.alphavantage.co/query?'
         req = 'function={req_type}&symbol={ticker}&interval={interval}&outputsize={size}&apikey={key}&datatype=csv'\
             .format(req_type='TIME_SERIES_INTRADAY', interval='1min', size='full',
-                    ticker=ticker, key='0F549FI0SLCA73J5')
+                    ticker=ticker, key='0F549FI0SLCP73J5')
         my_data = requests.get(url+req)
         my_df = pd.read_csv(io.StringIO(my_data.content.decode('utf-8')), parse_dates=True, index_col=0)
 
